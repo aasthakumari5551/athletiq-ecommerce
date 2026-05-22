@@ -16,7 +16,7 @@
         </div>
 
         <div class="hidden items-center gap-4 text-sm font-bold uppercase text-white md:flex">
-            <a href="{{ url('/cart') }}" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black">Cart</a>
+            <a href="{{ route('cart.index') }}" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black">Cart {{ $cartCount ? '(' . $cartCount . ')' : '' }}</a>
             @auth
                 <a href="{{ route('profile.edit') }}" class="text-white/80 transition hover:text-white">Account</a>
             @else
@@ -35,7 +35,7 @@
         <div class="flex flex-col gap-4 text-sm font-bold uppercase text-white">
             <a href="{{ url('/products') }}">Products</a>
             <a href="{{ url('/brands') }}">Brands</a>
-            <a href="{{ url('/cart') }}">Cart</a>
+            <a href="{{ route('cart.index') }}">Cart {{ $cartCount ? '(' . $cartCount . ')' : '' }}</a>
             @auth
                 <a href="{{ route('profile.edit') }}">Account</a>
             @else

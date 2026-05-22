@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\CartService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +12,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(CartService::class);
     }
 
     /**
@@ -19,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        view()->composer('*', function ($view) {
+            $view->with('cartCount', app(CartService::class)->count());
+        });
     }
 }
