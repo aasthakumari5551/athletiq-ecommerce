@@ -14,6 +14,7 @@
         <div><label class="text-xs font-black uppercase text-gray-500">Price</label><input type="number" step="0.01" name="price" value="{{ old('price', $product->price) }}" class="mt-2 w-full border-gray-300 focus:border-black focus:ring-black"></div>
         <div><label class="text-xs font-black uppercase text-gray-500">Sale Price</label><input type="number" step="0.01" name="sale_price" value="{{ old('sale_price', $product->sale_price) }}" class="mt-2 w-full border-gray-300 focus:border-black focus:ring-black"></div>
         <div><label class="text-xs font-black uppercase text-gray-500">Stock</label><input type="number" name="stock" value="{{ old('stock', $product->stock ?? 0) }}" class="mt-2 w-full border-gray-300 focus:border-black focus:ring-black"></div>
+        <div><label class="text-xs font-black uppercase text-gray-500">Gender</label><select name="gender" class="mt-2 w-full border-gray-300 focus:border-black focus:ring-black"><option value="unisex" @selected(old('gender', $product->gender) === 'unisex')>Unisex</option><option value="men" @selected(old('gender', $product->gender) === 'men')>Men</option><option value="women" @selected(old('gender', $product->gender) === 'women')>Women</option></select></div>
         <div><label class="text-xs font-black uppercase text-gray-500">Images</label><input type="file" name="images[]" multiple class="mt-2 w-full border border-gray-300 p-2"></div>
     </div>
 

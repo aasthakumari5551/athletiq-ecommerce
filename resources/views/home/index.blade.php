@@ -1,13 +1,22 @@
 @extends('layouts.app')
+@use('Illuminate\Support\Facades\Storage')
 
 @section('content')
     <section class="relative flex min-h-screen items-end overflow-hidden bg-black px-4 pb-20 pt-32 text-white sm:px-6 lg:px-8">
-        <div class="absolute right-0 top-20 hidden h-[72vh] w-1/2 grid-cols-2 gap-4 pr-8 opacity-80 lg:grid">
-            <div class="mt-24 bg-white/10"></div>
-            <div class="mb-24 bg-white/20"></div>
-            <div class="bg-white/15"></div>
-            <div class="mb-10 bg-white/10"></div>
-        </div>
+<div class="absolute right-0 top-20 hidden h-[72vh] w-1/2 grid-cols-2 gap-4 pr-8 opacity-80 lg:grid">
+    <div class="mt-24 overflow-hidden">
+        <img src="{{ asset('storage/hero/hero1.jpg') }}" class="h-full w-full object-cover" alt="Sport">
+    </div>
+    <div class="mb-24 overflow-hidden">
+        <img src="{{ asset('storage/hero/hero2.jpg') }}" class="h-full w-full object-cover" alt="Sport">
+    </div>
+    <div class="overflow-hidden">
+        <img src="{{ asset('storage/hero/hero3.jpg') }}" class="h-full w-full object-cover" alt="Sport">
+    </div>
+    <div class="mb-10 overflow-hidden">
+        <img src="{{ asset('storage/hero/hero4.jpg') }}" class="h-full w-full object-cover" alt="Sport">
+    </div>
+</div>
         <div class="relative mx-auto w-full max-w-7xl">
             <div class="max-w-5xl">
                 <p class="text-sm font-black uppercase text-white/60">Multi-brand sportswear store</p>
@@ -35,8 +44,12 @@
                 @forelse ($featuredBrands as $brand)
                     <a href="{{ route('brands.show', $brand->slug) }}" class="min-w-48 border border-gray-200 bg-white p-6 transition hover:border-black">
                         <div class="grid aspect-square place-items-center bg-brand-light">
-                            <span class="text-2xl font-black uppercase text-black">{{ $brand->name }}</span>
-                        </div>
+    @if($brand->logo)
+        <img src="{{ Storage::url($brand->logo) }}" alt="{{ $brand->name }}" class="h-16 w-auto object-contain">
+    @else
+        <span class="text-2xl font-black uppercase text-black">{{ $brand->name }}</span>
+    @endif
+</div>
                         <p class="mt-4 text-sm font-black uppercase">Shop {{ $brand->name }}</p>
                     </a>
                 @empty

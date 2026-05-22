@@ -21,6 +21,7 @@ class Product extends Model
         'stock',
         'is_featured',
         'is_active',
+        'gender',
     ];
 
     protected $casts = [

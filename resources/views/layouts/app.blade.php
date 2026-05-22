@@ -22,5 +22,8 @@
         </main>
 
         <x-footer />
+
+        {{-- Flash Messages --}}
+        <x-flash-message />
     </body>
 </html>

@@ -25,6 +25,7 @@ class ProductFilter
             })
             ->when($request->min_price, fn (Builder $q, string $value) => $q->where('price', '>=', $value))
             ->when($request->max_price, fn (Builder $q, string $value) => $q->where('price', '<=', $value))
+            ->when($request->gender, fn (Builder $q, string $value) => $q->where('gender', $value))
             ->when($request->sort === 'price_asc', fn (Builder $q) => $q->orderBy('price'))
             ->when($request->sort === 'price_desc', fn (Builder $q) => $q->orderByDesc('price'))
             ->when($request->sort === 'newest', fn (Builder $q) => $q->latest())

@@ -37,6 +37,16 @@
                         </select>
                     </div>
 
+                    <div>
+    <label class="text-xs font-black uppercase text-gray-500">Gender</label>
+    <select name="gender" class="mt-2 w-full border-gray-300 text-sm focus:border-black focus:ring-black">
+        <option value="">All</option>
+        <option value="men"   @selected(request('gender') === 'men')>Men</option>
+        <option value="women" @selected(request('gender') === 'women')>Women</option>
+        <option value="unisex" @selected(request('gender') === 'unisex')>Unisex</option>
+    </select>
+</div>
+
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="text-xs font-black uppercase text-gray-500">Min</label>
