@@ -94,18 +94,41 @@
             <h2 class="text-3xl font-black uppercase text-black">Shop by category</h2>
             <div class="mt-8 grid gap-6 md:grid-cols-3">
                 @forelse ($categories as $category)
-                    <a href="{{ route('products.index', ['category' => $category->slug]) }}" class="group block overflow-hidden bg-brand-light">
-                        <div class="grid aspect-[4/3] place-items-center transition duration-500 group-hover:scale-105">
-                            <span class="text-4xl font-black uppercase text-black">{{ $category->name }}</span>
-                        </div>
-                    </a>
-                @empty
-                    @foreach (['Shoes', 'Apparel', 'Accessories'] as $name)
-                        <a href="{{ route('products.index') }}" class="grid aspect-[4/3] place-items-center bg-brand-light">
-                            <span class="text-4xl font-black uppercase text-black">{{ $name }}</span>
-                        </a>
-                    @endforeach
-                @endforelse
+    @php
+        $categoryImages = [
+            'shoes'       => 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=600&fit=crop',
+            'apparel'     => 'http://127.0.0.1:8000/storage/hero/apparel.jpg',
+            'accessories' => 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&h=600&fit=crop',
+        ];
+        $img = $categoryImages[$category->slug] ?? null;
+    @endphp
+    <a href="{{ route('products.index', ['category' => $category->slug]) }}" class="group relative block overflow-hidden">
+        @if($img)
+            <img src="{{ $img }}" alt="{{ $category->name }}" class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105">
+        @else
+            <div class="aspect-[4/3] bg-brand-light"></div>
+        @endif
+        <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+            <span class="text-4xl font-black uppercase text-white">{{ $category->name }}</span>
+        </div>
+    </a>
+@empty
+    @foreach (['shoes' => 'Shoes', 'apparel' => 'Apparel', 'accessories' => 'Accessories'] as $slug => $name)
+        @php
+            $categoryImages = [
+                'shoes'       => 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=600&fit=crop',
+                'apparel'     => 'http://127.0.0.1:8000/storage/hero/apparel.jpg',
+                'accessories' => 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&h=600&fit=crop',
+            ];
+        @endphp
+        <a href="{{ route('products.index', ['category' => $slug]) }}" class="group relative block overflow-hidden">
+            <img src="{{ $categoryImages[$slug] }}" alt="{{ $name }}" class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                <span class="text-4xl font-black uppercase text-white">{{ $name }}</span>
+            </div>
+        </a>
+    @endforeach
+@endforelse
             </div>
         </div>
     </section>

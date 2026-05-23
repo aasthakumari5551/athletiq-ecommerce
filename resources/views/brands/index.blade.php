@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@use('Illuminate\Support\Facades\Storage')
 
 @section('content')
     <section class="bg-black px-4 pb-20 pt-36 text-white sm:px-6 lg:px-8">
@@ -13,7 +14,11 @@
             @forelse ($brands as $brand)
                 <a href="{{ route('brands.show', $brand->slug) }}" class="group border border-gray-200 bg-white p-5 transition hover:border-black">
                     <div class="grid aspect-square place-items-center bg-brand-light">
-                        <span class="px-4 text-center text-3xl font-black uppercase text-black">{{ $brand->name }}</span>
+                        @if($brand->logo)
+                            <img src="{{ Storage::url($brand->logo) }}" alt="{{ $brand->name }}" class="h-16 w-auto object-contain">
+                        @else
+                            <span class="px-4 text-center text-3xl font-black uppercase text-black">{{ $brand->name }}</span>
+                        @endif
                     </div>
                     <div class="mt-5 flex items-center justify-between gap-4">
                         <div>
