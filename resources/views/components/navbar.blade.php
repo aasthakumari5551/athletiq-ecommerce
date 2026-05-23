@@ -9,17 +9,20 @@
         <a href="{{ url('/') }}" class="text-2xl font-black uppercase text-white">Athletiq</a>
 
         <div class="hidden items-center gap-10 text-sm font-bold uppercase text-white/80 md:flex">
-    <a href="{{ url('/products') }}" class="transition hover:text-white {{ request()->is('products*') ? 'text-white border-b-2 border-white pb-1' : '' }}">Products</a>
-    <a href="{{ url('/brands') }}" class="transition hover:text-white {{ request()->is('brands*') ? 'text-white border-b-2 border-white pb-1' : '' }}">Brands</a>
-    <a href="{{ url('/products?category=shoes') }}" class="transition hover:text-white {{ request()->is('products*') && request('category') === 'shoes' ? 'text-white border-b-2 border-white pb-1' : '' }}">Shoes</a>
-    <a href="{{ url('/products?category=apparel') }}" class="transition hover:text-white {{ request()->is('products*') && request('category') === 'apparel' ? 'text-white border-b-2 border-white pb-1' : '' }}">Apparel</a>
-</div>
+            <a href="{{ url('/products') }}" class="transition hover:text-white {{ request()->is('products*') ? 'text-white border-b-2 border-white pb-1' : '' }}">Products</a>
+            <a href="{{ url('/brands') }}" class="transition hover:text-white {{ request()->is('brands*') ? 'text-white border-b-2 border-white pb-1' : '' }}">Brands</a>
+            <a href="{{ url('/products?category=shoes') }}" class="transition hover:text-white {{ request()->is('products*') && request('category') === 'shoes' ? 'text-white border-b-2 border-white pb-1' : '' }}">Shoes</a>
+            <a href="{{ url('/products?category=apparel') }}" class="transition hover:text-white {{ request()->is('products*') && request('category') === 'apparel' ? 'text-white border-b-2 border-white pb-1' : '' }}">Apparel</a>
+        </div>
 
         <div class="hidden items-center gap-4 text-sm font-bold uppercase text-white md:flex">
             <a href="{{ route('cart.index') }}" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black">
                 Cart {{ $cartCount ? '(' . $cartCount . ')' : '' }}
             </a>
             @auth
+                <a href="{{ route('wishlist.index') }}" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black {{ request()->is('wishlist*') ? 'bg-white text-black' : '' }}">
+                    ♡ Wishlist
+                </a>
                 @if(auth()->user()->role === 'admin')
                     <a href="{{ route('admin.dashboard') }}" class="text-white/80 transition hover:text-white">Admin</a>
                 @endif
@@ -42,22 +45,23 @@
 
     <div x-show="open" x-transition class="border-t border-white/10 bg-black px-4 py-5 md:hidden">
         <div class="flex flex-col gap-4 text-sm font-bold uppercase text-white">
-    <a href="{{ url('/products') }}" class="{{ request()->is('products*') ? 'text-white' : 'text-white/70' }}">Products</a>
-    <a href="{{ url('/brands') }}" class="{{ request()->is('brands*') ? 'text-white' : 'text-white/70' }}">Brands</a>
-    <a href="{{ route('cart.index') }}" class="{{ request()->is('cart*') ? 'text-white' : 'text-white/70' }}">Cart {{ $cartCount ? '(' . $cartCount . ')' : '' }}</a>
-    @auth
-        @if(auth()->user()->role === 'admin')
-            <a href="{{ route('admin.dashboard') }}" class="{{ request()->is('admin*') ? 'text-white' : 'text-white/70' }}">Admin</a>
-        @endif
-        <a href="{{ route('profile.edit') }}" class="{{ request()->is('profile*') ? 'text-white' : 'text-white/70' }}">Account</a>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="text-left uppercase text-white/70 hover:text-white">Logout</button>
-        </form>
-    @else
-        <a href="{{ route('login') }}" class="{{ request()->is('login*') ? 'text-white' : 'text-white/70' }}">Login</a>
-        <a href="{{ route('register') }}" class="{{ request()->is('register*') ? 'text-white' : 'text-white/70' }}">Join</a>
-    @endauth
-</div>
+            <a href="{{ url('/products') }}" class="{{ request()->is('products*') ? 'text-white' : 'text-white/70' }}">Products</a>
+            <a href="{{ url('/brands') }}" class="{{ request()->is('brands*') ? 'text-white' : 'text-white/70' }}">Brands</a>
+            <a href="{{ route('cart.index') }}" class="{{ request()->is('cart*') ? 'text-white' : 'text-white/70' }}">Cart {{ $cartCount ? '(' . $cartCount . ')' : '' }}</a>
+            @auth
+                <a href="{{ route('wishlist.index') }}" class="{{ request()->is('wishlist*') ? 'text-white' : 'text-white/70' }}">♡ Wishlist</a>
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.dashboard') }}" class="{{ request()->is('admin*') ? 'text-white' : 'text-white/70' }}">Admin</a>
+                @endif
+                <a href="{{ route('profile.edit') }}" class="{{ request()->is('profile*') ? 'text-white' : 'text-white/70' }}">Account</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="text-left uppercase text-white/70 hover:text-white">Logout</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="{{ request()->is('login*') ? 'text-white' : 'text-white/70' }}">Login</a>
+                <a href="{{ route('register') }}" class="{{ request()->is('register*') ? 'text-white' : 'text-white/70' }}">Join</a>
+            @endauth
+        </div>
     </div>
 </nav>
