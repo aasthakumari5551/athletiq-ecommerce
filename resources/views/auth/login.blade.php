@@ -2,6 +2,13 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    {{-- Cart message --}}
+    @if(request()->is('login') && url()->previous() && str_contains(url()->previous(), 'cart'))
+        <div class="mb-4 rounded-lg bg-black px-4 py-3 text-sm font-bold text-white">
+            Please login or create an account to add items to your cart.
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
@@ -15,12 +22,10 @@
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
-
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
                             name="password"
                             required autocomplete="current-password" />
-
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
@@ -44,4 +49,15 @@
             </x-primary-button>
         </div>
     </form>
+
+    {{-- Register link --}}
+    <div class="mt-6 text-center">
+        <p class="text-sm text-gray-600">
+            Don't have an account?
+            <a href="{{ route('register') }}" class="font-bold text-black underline hover:text-gray-700">
+                Create one here
+            </a>
+        </p>
+    </div>
+
 </x-guest-layout>

@@ -17,7 +17,7 @@ Route::get('/brands/{slug}', [BrandController::class, 'show'])->name('brands.sho
 
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
-    Route::post('/add', [CartController::class, 'add'])->name('add');
+    Route::post('/add', [CartController::class, 'add'])->name('add')->middleware('auth');
     Route::patch('/update', [CartController::class, 'update'])->name('update');
     Route::delete('/remove/{id}', [CartController::class, 'remove'])->name('remove');
 });

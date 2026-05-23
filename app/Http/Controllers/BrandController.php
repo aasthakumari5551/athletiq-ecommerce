@@ -19,13 +19,18 @@ class BrandController extends Controller
     }
 
     public function show(string $slug)
-    {
-        $brand = Brand::where('is_active', true)->where('slug', $slug)->firstOrFail();
-        $products = (new ProductFilter())->apply(
-            $brand->products()->with(['primaryImage', 'brand', 'category']),
-            request()
-        )->paginate(16)->withQueryString();
+{
+    $brand = Brand::where('is_active', true)->where('slug', $slug)->firstOrFail();
 
-        return view('brands.show', compact('brand', 'products'));
-    }
+    $query = \App\Models\Product::with(['primaryImage', 'brand', 'category'])
+        ->where('brand_id', $brand->id);
+
+    $products = (new ProductFilter())->apply($query, request())
+        ->paginate(16)
+        ->withQueryString();
+
+    $categories = \App\Models\Category::where('is_active', true)->get();
+
+    return view('brands.show', compact('brand', 'products', 'categories'));
+}
 }
