@@ -8,11 +8,6 @@ use Illuminate\Http\Request;
 
 class WishlistController extends Controller
 {
-    public function __construct()
-    {
-        // Laravel 12 — middleware in routes
-    }
-
     public function index()
     {
         $wishlists = auth()->user()->wishlists()
@@ -35,16 +30,14 @@ class WishlistController extends Controller
 
         if ($existing) {
             $existing->delete();
-            $message = 'Removed from wishlist.';
+            return response()->json(['wishlisted' => false]);
         } else {
             Wishlist::create([
                 'user_id'    => auth()->id(),
                 'product_id' => $request->product_id,
             ]);
-            $message = 'Added to wishlist!';
+            return response()->json(['wishlisted' => true]);
         }
-
-        return back()->with('success', $message);
     }
 
     public function remove(Wishlist $wishlist)

@@ -5,23 +5,26 @@
 @endphp
 
 <article class="group relative">
-    {{-- Heart icon — a tag ke BAHAR --}}
+
+    {{-- Heart icon --}}
     @if(auth()->check())
         @php
             $wishlisted = auth()->user()->wishlists()->where('product_id', $product->id)->exists();
         @endphp
-        <form method="POST" action="{{ route('wishlist.toggle') }}" class="absolute bottom-16 right-2 z-50">
-            @csrf
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
-            <button type="submit" class="rounded-full bg-white p-2 shadow-md hover:bg-red-50 transition">
-                <svg class="h-5 w-5 {{ $wishlisted ? 'text-red-500' : 'text-gray-400' }}"
-                     fill="{{ $wishlisted ? 'currentColor' : 'none' }}"
-                     stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                </svg>
-            </button>
-        </form>
+        <button
+            data-product-id="{{ $product->id }}"
+            data-wishlisted="{{ $wishlisted ? 'true' : 'false' }}"
+            data-url="{{ route('wishlist.toggle') }}"
+            data-csrf="{{ csrf_token() }}"
+            onclick="toggleWishlist(this)"
+            class="wishlist-btn absolute bottom-16 right-2 z-50 rounded-full bg-white p-2 shadow-md hover:bg-red-50 transition">
+            <svg class="h-5 w-5 {{ $wishlisted ? 'text-red-500' : 'text-gray-400' }}"
+                 fill="{{ $wishlisted ? 'currentColor' : 'none' }}"
+                 stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+        </button>
     @else
         <a href="{{ route('login') }}" class="absolute bottom-16 right-2 z-50 rounded-full bg-white p-2 shadow-md hover:bg-red-50 transition block">
             <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
