@@ -17,6 +17,12 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
 
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+RUN apt-get install -y nodejs
+
+RUN npm install
+RUN npm run build
+
 RUN touch database/database.sqlite
 
 RUN php artisan config:clear || true
