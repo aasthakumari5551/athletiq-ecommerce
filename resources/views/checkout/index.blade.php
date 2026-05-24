@@ -62,26 +62,47 @@
             </form>
 
             <aside class="h-fit border border-gray-200 p-6">
-                <h2 class="text-xl font-black uppercase text-black">Order summary</h2>
-                <div class="mt-6 space-y-4">
-                    @foreach ($items as $item)
-                        <div class="flex justify-between gap-4 text-sm">
-                            <div>
-                                <p class="font-bold">{{ $item['name'] }}</p>
-                                <p class="text-gray-500">Qty {{ $item['qty'] }} {{ $item['variant_size'] ? '/ Size '.$item['variant_size'] : '' }}</p>
-                            </div>
-                            <p class="font-bold">Rs. {{ number_format($item['price'] * $item['qty'], 2) }}</p>
-                        </div>
-                    @endforeach
+    <h2 class="text-xl font-black uppercase text-black">Order summary</h2>
+    <div class="mt-6 space-y-4">
+        @foreach ($items as $item)
+            <div class="flex justify-between gap-4 text-sm">
+                <div>
+                    <p class="font-bold">{{ $item['name'] }}</p>
+                    <p class="text-gray-500">Qty {{ $item['qty'] }} {{ $item['variant_size'] ? '/ Size '.$item['variant_size'] : '' }}</p>
                 </div>
-                <div class="mt-6 border-t border-gray-200 pt-6">
-                    <div class="flex justify-between text-lg font-black">
-                        <span>Total</span>
-                        <span>Rs. {{ number_format($total, 2) }}</span>
-                    </div>
-                    <p class="mt-2 text-xs font-bold uppercase text-gray-500">Cash on delivery</p>
-                </div>
-            </aside>
+                <p class="font-bold">Rs. {{ number_format($item['price'] * $item['qty'], 2) }}</p>
+            </div>
+        @endforeach
+    </div>
+    <div class="mt-6 border-t border-gray-200 pt-6 space-y-3">
+        <div class="flex justify-between text-sm">
+            <span class="text-gray-500">Subtotal</span>
+            <span class="font-bold">Rs. {{ number_format($total, 2) }}</span>
+        </div>
+
+        @if(session('coupon'))
+            <div class="flex justify-between text-sm text-green-600">
+                <span>Discount ({{ session('coupon.code') }})</span>
+                <span class="font-bold">- Rs. {{ number_format(session('coupon.discount'), 2) }}</span>
+            </div>
+            @php $finalTotal = max(0, $total - session('coupon.discount', 0)); @endphp
+        @else
+            @php $finalTotal = $total; @endphp
+        @endif
+
+        <div class="flex justify-between text-lg font-black border-t border-gray-200 pt-3">
+            <span>Total</span>
+            <span>Rs. {{ number_format($finalTotal, 2) }}</span>
+        </div>
+        <p class="text-xs font-bold uppercase text-gray-500">Cash on delivery</p>
+
+        @if(session('coupon'))
+            <div class="bg-green-50 border border-green-200 rounded px-3 py-2 text-xs text-green-700 font-bold">
+                ✅ Coupon "{{ session('coupon.code') }}" applied!
+            </div>
+        @endif
+    </div>
+</aside>
         </div>
     </section>
 @endsection

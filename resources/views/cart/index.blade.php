@@ -59,6 +59,47 @@
             <aside class="h-fit border border-gray-200 p-6">
                 <h2 class="text-xl font-black uppercase text-black">Summary</h2>
 
+                {{-- Available Coupons --}}
+@php
+    $availableCoupons = \App\Models\Coupon::where('is_active', true)
+        ->where(function ($q) {
+            $q->whereNull('expires_at')
+              ->orWhere('expires_at', '>=', now());
+        })
+        ->get();
+@endphp
+
+@if($availableCoupons->count() && !session('coupon'))
+<div class="mb-3">
+    <p class="text-xs font-black uppercase text-gray-500 mb-2">Available Coupons</p>
+    <div class="space-y-2">
+        @foreach($availableCoupons as $c)
+        <div class="flex items-center justify-between border border-dashed border-gray-300 px-4 py-2 rounded">
+            <div>
+                <span class="font-black text-sm uppercase tracking-widest">{{ $c->code }}</span>
+                <p class="text-xs text-gray-500 mt-0.5">
+                    @if($c->type === 'percent')
+                        {{ $c->value }}% off
+                    @else
+                        Rs. {{ number_format($c->value, 2) }} off
+                    @endif
+                    @if($c->min_order > 0)
+                        · Min order Rs. {{ number_format($c->min_order, 2) }}
+                    @endif
+                </p>
+            </div>
+            <button
+                type="button"
+                onclick="document.querySelector('[name=coupon_code]').value='{{ $c->code }}'"
+                class="text-xs font-black uppercase underline">
+                Apply
+            </button>
+        </div>
+        @endforeach
+    </div>
+</div>
+@endif
+
                 {{-- Coupon Section --}}
                 @if(count($items))
                 <div class="mt-6">
