@@ -11,8 +11,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
 
-        <link rel="stylesheet" href="{{ asset('build/assets/app-CXmtXzTQ.css') }}">
-<script type="module" src="{{ asset('build/assets/app-DdkPUn5i.js') }}"></script>
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
     </head>
     <body class="bg-white font-sans text-brand antialiased">
         <x-navbar />
