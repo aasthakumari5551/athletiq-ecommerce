@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
@@ -18,4 +19,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('orders', OrderController::class)->only(['index', 'show', 'update']);
     Route::resource('banners', BannerController::class)->except(['show']);
     Route::resource('coupons', CouponController::class);
+    Route::resource('reviews', AdminReviewController::class)->only(['index', 'update', 'destroy']);
 });

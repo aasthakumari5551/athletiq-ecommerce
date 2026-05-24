@@ -56,6 +56,16 @@ class Product extends Model
         return $this->hasOne(ProductImage::class)->where('is_primary', true);
     }
 
+    public function reviews()
+{
+    return $this->hasMany(\App\Models\Review::class);
+}
+
+public function averageRating()
+{
+    return $this->reviews()->where('is_approved', true)->avg('rating');
+}
+
     public function getDisplayPriceAttribute(): string
     {
         return number_format((float) ($this->sale_price ?? $this->price), 2);

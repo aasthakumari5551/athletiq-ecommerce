@@ -23,19 +23,25 @@ class ProductController extends Controller
     }
 
     public function show(string $slug)
-    {
-        $product = Product::with(['brand', 'category', 'images', 'variants'])
-            ->where('is_active', true)
-            ->where('slug', $slug)
-            ->firstOrFail();
+{
+    $product = Product::with([
+        'brand',
+        'category',
+        'images',
+        'variants',
+        'reviews' => fn($q) => $q->where('is_approved', true)->with('user')
+    ])
+    ->where('is_active', true)
+    ->where('slug', $slug)
+    ->firstOrFail();
 
-        $related = Product::with(['brand', 'primaryImage'])
-            ->where('is_active', true)
-            ->where('id', '!=', $product->id)
-            ->where('brand_id', $product->brand_id)
-            ->take(4)
-            ->get();
+    $related = Product::with(['brand', 'primaryImage'])
+        ->where('is_active', true)
+        ->where('id', '!=', $product->id)
+        ->where('brand_id', $product->brand_id)
+        ->take(4)
+        ->get();
 
-        return view('products.show', compact('product', 'related'));
-    }
+    return view('products.show', compact('product', 'related'));
+}
 }

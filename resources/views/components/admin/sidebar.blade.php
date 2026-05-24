@@ -24,6 +24,7 @@
         <a href="{{ url('/admin/orders') }}" class="block rounded-md px-4 py-3 {{ request()->is('admin/orders*') ? 'bg-white text-black' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">Orders</a>
         <a href="{{ url('/admin/banners') }}" class="block rounded-md px-4 py-3 {{ request()->is('admin/banners*') ? 'bg-white text-black' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">Banners</a>
         <a href="{{ url('/admin/coupons') }}" class="block rounded-md px-4 py-3 {{ request()->is('admin/coupons*') ? 'bg-white text-black' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">Coupons</a>
+        <a href="{{ url('/admin/reviews') }}" class="block rounded-md px-4 py-3 {{ request()->is('admin/reviews*') ? 'bg-white text-black' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">Reviews</a>
     </nav>
 
     <form method="POST" action="{{ route('logout') }}" class="absolute bottom-6 left-4 right-4">
