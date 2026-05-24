@@ -9,12 +9,12 @@ class OrderController extends Controller
     public function index()
     {
         $orders = auth()->user()
-            ->orders()
-            ->with('address')
-            ->latest()
-            ->paginate(10);
+        ->orders()
+        ->with(['items.product.primaryImage', 'items.variant', 'address'])
+        ->latest()
+        ->paginate(10);
 
-        return view('orders.index', compact('orders'));
+    return view('orders.index', compact('orders'));
     }
 
     public function show(Order $order)

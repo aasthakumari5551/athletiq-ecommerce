@@ -122,18 +122,22 @@
             {{-- Review Form --}}
             @auth
                 @php
+                    $hasPurchased = auth()->user()->orders()
+                        ->where('status', 'delivered')
+                        ->whereHas('items', fn($q) => $q->where('product_id', $product->id))
+                        ->exists();
+
                     $alreadyReviewed = \App\Models\Review::where('user_id', auth()->id())
                         ->where('product_id', $product->id)
                         ->exists();
                 @endphp
 
-                @if(!$alreadyReviewed)
-                    <div class="mt-10 border border-gray-200 p-6">
+                @if($hasPurchased && !$alreadyReviewed)
+                    <div class="mt-10 border border-gray-200 p-6" id="review-form">
                         <h3 class="text-xl font-black uppercase text-black">Write a Review</h3>
                         <form method="POST" action="{{ route('reviews.store', $product) }}" class="mt-6 space-y-4">
                             @csrf
 
-                            {{-- Star Rating --}}
                             <div x-data="{ rating: 0, hover: 0 }">
                                 <p class="text-xs font-black uppercase text-gray-500 mb-2">Rating</p>
                                 <div class="flex gap-1">
@@ -141,8 +145,7 @@
                                         <button type="button"
                                             x-on:click="rating = {{ $i }}"
                                             x-on:mouseover="hover = {{ $i }}"
-                                            x-on:mouseleave="hover = 0"
-                                            class="text-2xl">
+                                            x-on:mouseleave="hover = 0">
                                             <svg class="h-8 w-8"
                                                 x-bind:class="(hover || rating) >= {{ $i }} ? 'text-yellow-400' : 'text-gray-300'"
                                                 fill="currentColor" viewBox="0 0 20 20">
@@ -164,11 +167,18 @@
                             </button>
                         </form>
                     </div>
-                @else
+
+                @elseif($alreadyReviewed)
                     <div class="mt-10 bg-brand-light p-6 text-center">
                         <p class="font-black uppercase text-gray-600">You have already reviewed this product ✅</p>
                     </div>
+
+                @else
+                    <div class="mt-10 border border-gray-200 p-6 text-center">
+                        <p class="font-black uppercase text-gray-600">Purchase & receive this product to write a review 🛍️</p>
+                    </div>
                 @endif
+
             @else
                 <div class="mt-10 border border-gray-200 p-6 text-center">
                     <p class="font-black uppercase text-gray-600">
