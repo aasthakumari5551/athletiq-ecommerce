@@ -7,7 +7,7 @@ RUN npm run build
 
 FROM php:8.2-fpm-alpine
 RUN apk add --no-cache nginx zip unzip libzip-dev curl \
-  && docker-php-ext-install zip pdo pdo_mysql
+  && docker-php-ext-install zip pdo pdo_mysql pdo_pgsql
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 COPY composer.json composer.lock ./
