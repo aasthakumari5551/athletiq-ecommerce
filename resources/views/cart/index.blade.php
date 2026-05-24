@@ -58,20 +58,70 @@
 
             <aside class="h-fit border border-gray-200 p-6">
                 <h2 class="text-xl font-black uppercase text-black">Summary</h2>
+
+                {{-- Coupon Section --}}
+                @if(count($items))
+                <div class="mt-6">
+                    @if(session('coupon'))
+                        <div class="flex items-center justify-between bg-green-50 border border-green-200 px-4 py-3 rounded-lg">
+                            <div>
+                                <p class="text-sm font-black uppercase text-green-700">{{ session('coupon.code') }} applied!</p>
+                                <p class="text-xs text-green-600">
+                                    @if(session('coupon.type') === 'percent')
+                                        {{ session('coupon.value') }}% off
+                                    @else
+                                        Rs. {{ number_format(session('coupon.value'), 2) }} off
+                                    @endif
+                                </p>
+                            </div>
+                            <form method="POST" action="{{ route('coupon.remove') }}">
+                                @csrf
+                                @method('DELETE')
+                                <button class="text-xs font-black uppercase text-red-500 underline">Remove</button>
+                            </form>
+                        </div>
+                    @else
+                        <form method="POST" action="{{ route('coupon.apply') }}" class="flex gap-2">
+                            @csrf
+                            <input
+                                type="text"
+                                name="coupon_code"
+                                placeholder="Coupon code"
+                                class="w-full border-gray-300 text-sm focus:border-black focus:ring-black uppercase"
+                            >
+                            <button class="bg-black px-4 py-2 text-xs font-black uppercase text-white whitespace-nowrap">Apply</button>
+                        </form>
+                    @endif
+                </div>
+                @endif
+
                 <div class="mt-6 space-y-3 border-b border-gray-200 pb-6 text-sm">
                     <div class="flex justify-between">
                         <span class="text-gray-500">Subtotal</span>
                         <span class="font-bold">Rs. {{ number_format($total, 2) }}</span>
                     </div>
+                    @if(session('coupon'))
+                        <div class="flex justify-between text-green-600">
+                            <span>Discount ({{ session('coupon.code') }})</span>
+                            <span class="font-bold">- Rs. {{ number_format(session('coupon.discount'), 2) }}</span>
+                        </div>
+                    @endif
                     <div class="flex justify-between">
                         <span class="text-gray-500">Payment</span>
                         <span class="font-bold uppercase">COD</span>
                     </div>
                 </div>
+
+                @php
+                    $discount = session('coupon.discount', 0);
+                    $finalTotal = max(0, $total - $discount);
+                @endphp
+
                 <div class="mt-6 flex justify-between text-lg font-black">
                     <span>Total</span>
-                    <span>Rs. {{ number_format($total, 2) }}</span>
+                    <span>Rs. {{ number_format($finalTotal, 2) }}</span>
                 </div>
+
                 <a href="{{ route('checkout') }}" class="mt-6 block rounded-full bg-black px-6 py-4 text-center text-sm font-black uppercase text-white {{ count($items) ? '' : 'pointer-events-none opacity-40' }}">Checkout</a>
             </aside>
         </div>

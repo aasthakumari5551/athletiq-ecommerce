@@ -89,6 +89,39 @@
         </div>
     </section>
 
+    {{-- Coupon Banner --}}
+@if($activeCoupon)
+<section class="bg-white border-y border-gray-200 px-4 py-6 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+            <div class="rounded-full bg-black p-3">
+                <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-xs font-black uppercase text-gray-400">Special Offer</p>
+                <p class="text-lg font-black uppercase text-black">
+                    Use code <span class="border-b-2 border-black">{{ $activeCoupon->code }}</span>
+                    — get
+                    @if($activeCoupon->type === 'percent')
+                        {{ $activeCoupon->value }}% off
+                    @else
+                        Rs. {{ number_format($activeCoupon->value, 2) }} off
+                    @endif
+                    @if($activeCoupon->min_order > 0)
+                        on orders above Rs. {{ number_format($activeCoupon->min_order, 2) }}
+                    @endif
+                </p>
+            </div>
+        </div>
+        <a href="{{ route('products.index') }}" class="rounded-full bg-black px-6 py-3 text-sm font-black uppercase text-white whitespace-nowrap">
+            Shop Now
+        </a>
+    </div>
+</section>
+@endif
+
     <section class="bg-white py-16">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl font-black uppercase text-black">Shop by category</h2>
