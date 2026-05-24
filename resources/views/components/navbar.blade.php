@@ -15,27 +15,35 @@
             <a href="{{ url('/products?category=apparel') }}" class="transition hover:text-white {{ request()->is('products*') && request('category') === 'apparel' ? 'text-white border-b-2 border-white pb-1' : '' }}">Apparel</a>
         </div>
 
+        
         <div class="hidden items-center gap-4 text-sm font-bold uppercase text-white md:flex">
-            <a href="{{ route('cart.index') }}" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black">
-                Cart {{ $cartCount ? '(' . $cartCount . ')' : '' }}
-            </a>
-            @auth
-                <a href="{{ route('wishlist.index') }}" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black {{ request()->is('wishlist*') ? 'bg-white text-black' : '' }}">
-                    ♡ Wishlist
-                </a>
-                @if(auth()->user()->role === 'admin')
-                    <a href="{{ route('admin.dashboard') }}" class="text-white/80 transition hover:text-white">Admin</a>
-                @endif
-                <a href="{{ route('profile.edit') }}" class="text-white/80 transition hover:text-white">Account</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="text-white/80 transition hover:text-white">Logout</button>
-                </form>
-            @else
-                <a href="{{ route('login') }}" class="text-white/80 transition hover:text-white">Login</a>
-                <a href="{{ route('register') }}" class="rounded-full bg-white px-4 py-2 text-black transition hover:bg-brand-accent">Join</a>
-            @endauth
-        </div>
+    <a href="{{ route('cart.index') }}" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black">
+        Cart {{ $cartCount ? '(' . $cartCount . ')' : '' }}
+    </a>
+    @auth
+        <a href="{{ route('wishlist.index') }}" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black {{ request()->is('wishlist*') ? 'bg-white text-black' : '' }}">
+            ♡ Wishlist
+        </a>
+        <a href="{{ route('orders.index') }}" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black {{ request()->is('orders*') ? 'bg-white text-black' : '' }}">
+            Orders
+        </a>
+        @if(auth()->user()->role === 'admin')
+            <a href="{{ route('admin.dashboard') }}" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black">Admin</a>
+        @endif
+        <a href="{{ route('profile.edit') }}" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black {{ request()->is('profile*') ? 'bg-white text-black' : '' }}">
+            Account
+        </a>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black">
+                Logout
+            </button>
+        </form>
+    @else
+        <a href="{{ route('login') }}" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black">Login</a>
+        <a href="{{ route('register') }}" class="rounded-full bg-white px-4 py-2 text-black transition hover:bg-brand-accent">Join</a>
+    @endauth
+</div>
 
         <button type="button" x-on:click="open = ! open" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white md:hidden">
             <span class="sr-only">Open menu</span>
@@ -50,6 +58,8 @@
             <a href="{{ route('cart.index') }}" class="{{ request()->is('cart*') ? 'text-white' : 'text-white/70' }}">Cart {{ $cartCount ? '(' . $cartCount . ')' : '' }}</a>
             @auth
                 <a href="{{ route('wishlist.index') }}" class="{{ request()->is('wishlist*') ? 'text-white' : 'text-white/70' }}">♡ Wishlist</a>
+                {{-- Orders link --}}
+                <a href="{{ route('orders.index') }}" class="{{ request()->is('orders*') ? 'text-white' : 'text-white/70' }}">Orders</a>
                 @if(auth()->user()->role === 'admin')
                     <a href="{{ route('admin.dashboard') }}" class="{{ request()->is('admin*') ? 'text-white' : 'text-white/70' }}">Admin</a>
                 @endif

@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CouponController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
@@ -38,6 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
     Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
     Route::delete('/wishlist/{wishlist}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::post('/coupon/apply', [CouponController::class, 'apply'])->name('coupon.apply');
+    Route::delete('/coupon/remove', [CouponController::class, 'remove'])->name('coupon.remove');
 });
 
 require __DIR__.'/auth.php';
