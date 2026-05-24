@@ -1,6 +1,6 @@
 services:
   - type: web
     name: athletiq-ecommerce
-    env: php
+    env: node
     buildCommand: composer install --no-dev
     startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
