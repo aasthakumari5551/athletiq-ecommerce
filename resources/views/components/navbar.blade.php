@@ -23,6 +23,8 @@
                 <a href="{{ route('wishlist.index') }}" class="rounded-full border border-white/30 px-4 py-2 transition hover:bg-white hover:text-black {{ request()->is('wishlist*') ? 'bg-white text-black' : '' }}">
                     ♡ Wishlist
                 </a>
+                {{-- Orders link --}}
+                <a href="{{ route('orders.index') }}" class="text-white/80 transition hover:text-white {{ request()->is('orders*') ? 'border-b-2 border-white pb-1' : '' }}">Orders</a>
                 @if(auth()->user()->role === 'admin')
                     <a href="{{ route('admin.dashboard') }}" class="text-white/80 transition hover:text-white">Admin</a>
                 @endif
@@ -50,6 +52,8 @@
             <a href="{{ route('cart.index') }}" class="{{ request()->is('cart*') ? 'text-white' : 'text-white/70' }}">Cart {{ $cartCount ? '(' . $cartCount . ')' : '' }}</a>
             @auth
                 <a href="{{ route('wishlist.index') }}" class="{{ request()->is('wishlist*') ? 'text-white' : 'text-white/70' }}">♡ Wishlist</a>
+                {{-- Orders link --}}
+                <a href="{{ route('orders.index') }}" class="{{ request()->is('orders*') ? 'text-white' : 'text-white/70' }}">Orders</a>
                 @if(auth()->user()->role === 'admin')
                     <a href="{{ route('admin.dashboard') }}" class="{{ request()->is('admin*') ? 'text-white' : 'text-white/70' }}">Admin</a>
                 @endif

@@ -21,7 +21,7 @@ class OrderController extends Controller
     {
         abort_unless($order->user_id === auth()->id(), 403);
 
-        $order->load(['items.variant', 'address']);
+        $order->load(['items.product.primaryImage', 'items.product.brand', 'items.variant', 'address']);
 
         return view('orders.show', compact('order'));
     }
