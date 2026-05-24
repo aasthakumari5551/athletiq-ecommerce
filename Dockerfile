@@ -15,6 +15,8 @@ WORKDIR /app
 
 COPY . .
 
+RUN ls -la public/build || true
+
 RUN composer install --no-dev --optimize-autoloader
 
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
@@ -22,6 +24,8 @@ RUN apt-get install -y nodejs
 
 RUN npm install
 RUN npm run build
+
+RUN ls -la public/build
 
 RUN touch database/database.sqlite
 
